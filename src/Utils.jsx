@@ -68,11 +68,25 @@ export function TimeLocation(props) {
 }
 
 export function useLessonData(semester) {
-  // return useSWR(`/course-plus-data/lessonData_${semester}.json`, lessonFetcher)
-  return useSWR(
-    `/course-plus-data/LessonData/Parsed_${semester}.json`,
-    lessonFetcher
-  )
+  return useSWR(['lessonData', semester], (_, sem) => {
+    const urlUnder = `/course-plus-data/LessonData/Parsed_${sem}_under.json`
+    const urlPost = `/course-plus-data/LessonData/Parsed_${sem}_post.json`
+    const urlOld = `/course-plus-data/LessonData/Parsed_${sem}.json`
+
+    return Promise.all([
+      lessonFetcher(urlUnder).catch(() => null),
+      lessonFetcher(urlPost).catch(() => null),
+    ]).then(([dataUnder, dataPost]) => {
+      if (dataUnder === null && dataPost === null) {
+        return lessonFetcher(urlOld)
+      }
+      const merged = [...(dataUnder || []), ...(dataPost || [])]
+      return merged.map((lesson, idx) => {
+        lesson.row_id = idx
+        return lesson
+      })
+    })
+  })
 }
 
 export function useIndexData() {
