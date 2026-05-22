@@ -19,6 +19,7 @@ import { groupBy } from 'lodash'
 import forEach from 'lodash/forEach'
 import sortedBy from 'lodash/sortBy'
 import React, { useReducer, useState } from 'react'
+import GitHubButton from 'react-github-btn'
 import {
   HashRouter as Router,
   Route,
@@ -174,15 +175,13 @@ function App() {
                 </div>
                 <div className='justify-content-end row'>
                   <div className='d-flex align-items-center my-2 p-0 col-auto d-row'>
-                    <a
-                      className="github-button"
+                    <GitHubButton
                       href="https://github.com/ECNU-minus/course-plus"
-                      data-show-count="true"
-                      data-size="large"
-                      aria-label="Star ECNU-minus/course-plus on GitHub"
+                      data-show-count
+                      data-size='large'
                     >
                       Star
-                    </a>
+                    </GitHubButton>
                   </div>
                 </div>
               </div>
