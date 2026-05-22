@@ -87,19 +87,18 @@ function App() {
         />
         <LoginModal show={loginDialog} nextStep={handleLogin} />
 
-        <div className='row flex-grow-1 h-100' style={{ minHeight: 0 }}>
+        <div className='flex-grow-1 h-100 row' style={{ minHeight: 0 }}>
           {!hideSidebar && (
             <div
-              className={`col-md-3 sidebar-container ${
-                isMenuOpen ? 'open' : ''
-              } h-100 d-flex flex-column`}
+              className={`col-md-3 sidebar-container ${isMenuOpen ? 'open' : ''
+                } h-100 d-flex flex-column`}
               style={{ minHeight: 0 }}
             >
               <div
                 className='sidebar-overlay d-md-none'
                 onClick={() => setMenuOpen(false)}
               ></div>
-              <div className='sidebar h-100'>
+              <div className='h-100 sidebar'>
                 <SemesterNav />
                 <hr />
                 <Switch>
@@ -137,7 +136,7 @@ function App() {
                   </Route>
                 </Switch>
 
-                <p className='text-muted my-3 small'>
+                <p className='my-3 text-muted small'>
                   免责声明：本网站课程相关数据来自
                   <a
                     href='https://byyt.ecnu.edu.cn/home/#/home'
@@ -149,8 +148,8 @@ function App() {
                   ，数据更新存在一定延迟性。且本网站仅供学习和交流使用，具体情况以本科生院安排为准。
                 </p>
                 <div className='row'>
-                  <div className='col d-flex d-row align-items-center'>
-                    <p className='text-muted my-1 small'>
+                  <div className='d-flex align-items-center col d-row'>
+                    <p className='my-1 text-muted small'>
                       <a href='https://github.com/ECNU-minus/course-plus'>
                         本项目
                       </a>{' '}
@@ -162,7 +161,7 @@ function App() {
                       >
                         ECNU-Minus
                       </a>
-                      维护。如您有任何需要或问题反馈，请加入{' '}
+                      {' '}维护。如您有任何需要或问题反馈，请加入{' '}
                       <a
                         href='https://qm.qq.com/q/HBbLlBtnuq'
                         target='_blank'
@@ -173,8 +172,8 @@ function App() {
                     </p>
                   </div>
                 </div>
-                <div className='row justify-content-end'>
-                  <div className='col-auto my-2 p-0 d-flex d-row align-items-center'>
+                <div className='justify-content-end row'>
+                  <div className='d-flex align-items-center my-2 p-0 col-auto d-row'>
                     <a
                       className="github-button"
                       href="https://github.com/ECNU-minus/course-plus"
@@ -191,9 +190,8 @@ function App() {
           )}
 
           <div
-            className={`${
-              hideSidebar ? 'col-12' : 'col-md-9'
-            } main-content h-100 d-flex flex-column`}
+            className={`${hideSidebar ? 'col-12' : 'col-md-9'
+              } main-content h-100 d-flex flex-column`}
             style={{ minHeight: 0 }}
           >
             <Switch>
@@ -302,7 +300,7 @@ function App() {
   return (
     <Router>
       <div
-        className='container-fluid d-flex flex-column vh-100'
+        className='d-flex flex-column container-fluid vh-100'
         style={{ minHeight: 0 }}
       >
         <AppLayout />
