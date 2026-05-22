@@ -13,6 +13,9 @@
 
 import React from 'react'
 import { Link, matchPath, useLocation, useParams } from 'react-router-dom'
+import useSWR from 'swr'
+
+import fetcher from './SWRFetcher'
 
 function CoursePlusSvg() {
   return (
@@ -20,7 +23,7 @@ function CoursePlusSvg() {
       width='1.25rem'
       height='1.25rem'
       viewBox='0 0 16 16'
-      className='bi bi-calendar-plus mr-1 align-middle'
+      className='mr-1 align-middle bi bi-calendar-plus'
       fill='currentColor'
       xmlns='http://www.w3.org/2000/svg'
     >
@@ -39,11 +42,24 @@ function CoursePlusSvg() {
   )
 }
 
-export default ({ onToggleClick }) => {
+export default ({ onToggleClick, hideToggle }: { onToggleClick: () => void; hideToggle: boolean }) => {
   const { pathname } = useLocation()
   const params = useParams<{ semester?: string }>()
+  const isStandalone = pathname === '/search' || pathname === '/course'
   const semesterFromPath = pathname.match(/^\/([^/]+)/)?.[1]
-  const semester = params.semester || semesterFromPath
+
+  const { data: indexData } = useSWR(
+    isStandalone ? '/course-plus-data/lessonData_index.json' : null,
+    fetcher
+  )
+  const defaultSemester =
+    indexData && indexData.length > 0
+      ? `${indexData[indexData.length - 1].year}_${indexData[indexData.length - 1].semester}`
+      : null
+
+  const semester = isStandalone
+    ? defaultSemester || null
+    : params.semester || semesterFromPath
   const links = [
     { path: '/browse', text: '搜索', match: '/:semester/browse' },
     { path: '/plan', text: '排课', match: '/:semester/plan' },
@@ -64,17 +80,30 @@ export default ({ onToggleClick }) => {
     </li>
   ))
 
+  // Global search link - independent of semester
+  const globalSearchMatch = matchPath(pathname, { path: '/search' }) ||
+    matchPath(pathname, { path: '/course' })
+  const globalSearchLink = (
+    <li key='/search' className={`nav-item${globalSearchMatch ? ' active' : ''}`}>
+      <Link to='/search' className='nav-link'>
+        全局搜索
+      </Link>
+    </li>
+  )
+
   return (
-    <nav className='navbar navbar-light navbar-expand-md course-navbar mb-3'>
-      <button
-        className='navbar-toggler d-md-none'
-        type='button'
-        onClick={onToggleClick}
-      >
-        <span className='navbar-toggler-icon'></span>
-      </button>
+    <nav className='mb-3 navbar navbar-light navbar-expand-md course-navbar'>
+      {!hideToggle && (
+        <button
+          className='navbar-toggler d-md-none'
+          type='button'
+          onClick={onToggleClick}
+        >
+          <span className='navbar-toggler-icon'></span>
+        </button>
+      )}
       <span
-        className='navbar-text d-md-none mx-2'
+        className='mx-2 navbar-text d-md-none'
         style={{
           color: '#ffc107',
           backgroundColor: '#f2f2f2',
@@ -84,12 +113,13 @@ export default ({ onToggleClick }) => {
       >
         为保证最佳体验，建议使用PC端访问
       </span>
-      <span className='navbar-brand mb-0'>
+      <span className='mb-0 navbar-brand'>
         <CoursePlusSvg /> <span className='align-middle'>Course+</span>
       </span>
       <div className='navbar-collapse show'>
-        <ul className='navbar-nav ml-auto'>
+        <ul className='ml-auto navbar-nav'>
           {semester ? linksComponent : null}
+          {globalSearchLink}
         </ul>
       </div>
     </nav>

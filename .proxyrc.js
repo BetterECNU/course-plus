@@ -1,4 +1,3 @@
-const { createProxyMiddleware } = require("http-proxy-middleware");
 const serveStatic = require('serve-static')
 
 module.exports = function (app) {

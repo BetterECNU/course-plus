@@ -230,3 +230,54 @@
     text-align: left;
   }
 }
+
+// Global search page
+.search-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.search-results {
+  .search-result-item {
+    border-left: 3px solid transparent;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:hover {
+      border-left-color: #0080ff;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+  }
+}
+
+.semester-badge {
+  font-weight: normal;
+  border: 1px solid #dee2e6;
+}
+
+// Course detail page
+.course-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.course-header {
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #0080ff;
+}
+
+.course-year-group {
+  .course-year-title {
+    font-size: 1.1rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+}
+
+.course-lesson-card {
+  border-left: 3px solid #dee2e6;
+  transition: border-color 0.15s ease-in-out;
+
+  &:hover {
+    border-left-color: #0080ff;
+  }
+}
