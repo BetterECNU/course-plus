@@ -25,7 +25,21 @@ function semesterLabel(year, term) {
 }
 
 export default function SearchPage() {
-  const [keyword, setKeyword] = useState('')
+  const [keyword, setKeyword] = useState(() => {
+    try {
+      return window.localStorage.getItem('searchKeyword') || ''
+    } catch {
+      return ''
+    }
+  })
+
+  const handleKeywordChange = (e) => {
+    const value = e.target.value
+    setKeyword(value)
+    try {
+      window.localStorage.setItem('searchKeyword', value)
+    } catch {}
+  }
   const [searched, setSearched] = useState(false)
   const { data: allLessons, loading, error, fetchAll } = useAllLessons()
   const { data: lessonConversion } = useLessonConversion()
@@ -101,7 +115,7 @@ export default function SearchPage() {
                 placeholder='输入课程名称或课程代码……'
                 name='keyword'
                 value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
+                onChange={handleKeywordChange}
                 size=''
               />
               <InputGroup.Append>
