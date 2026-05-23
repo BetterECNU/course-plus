@@ -7,6 +7,10 @@
  * Changes:
  * - feat: browse and star
  *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - feat: 新增 useAllLessons 钩子，支持跨所有学期的课程数据获取，兼容 under/post 拆分格式并回退旧格式
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */

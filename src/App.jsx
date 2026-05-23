@@ -7,6 +7,12 @@
  * Changes:
  * - feat: update info
  *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - feat: 添加全局搜索(/search)与课程详情(/course)页面路由，独立页面隐藏侧栏全宽布局
+ * - refactor: 提取 AppLayout 组件与 colorize 函数，事件处理函数使用 useCallback 优化，色彩映射使用 useMemo 缓存
+ * - fix: 组织名链接后添加空格以改善排版
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */

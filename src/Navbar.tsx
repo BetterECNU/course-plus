@@ -7,6 +7,10 @@
  * Changes:
  * - feat: hide classtable page
  *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - feat: 添加全局搜索导航链接，独立页面通过 SWR 获取默认学期，支持 hideToggle 属性隐藏侧栏切换按钮
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */
