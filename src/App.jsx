@@ -91,8 +91,9 @@ function App() {
         <div className='flex-grow-1 h-100 row' style={{ minHeight: 0 }}>
           {!hideSidebar && (
             <div
-              className={`col-md-3 sidebar-container ${isMenuOpen ? 'open' : ''
-                } h-100 d-flex flex-column`}
+              className={`col-md-3 sidebar-container ${
+                isMenuOpen ? 'open' : ''
+              } h-100 d-flex flex-column`}
               style={{ minHeight: 0 }}
             >
               <div
@@ -161,8 +162,8 @@ function App() {
                         rel='noreferrer'
                       >
                         ECNU-Minus
-                      </a>
-                      {' '}维护。如您有任何需要或问题反馈，请加入{' '}
+                      </a>{' '}
+                      维护。如您有任何需要或问题反馈，请加入{' '}
                       <a
                         href='https://qm.qq.com/q/HBbLlBtnuq'
                         target='_blank'
@@ -176,7 +177,7 @@ function App() {
                 <div className='justify-content-end row'>
                   <div className='d-flex align-items-center my-2 p-0 col-auto d-row'>
                     <GitHubButton
-                      href="https://github.com/ECNU-minus/course-plus"
+                      href='https://github.com/ECNU-minus/course-plus'
                       data-show-count
                       data-size='large'
                     >
@@ -189,8 +190,9 @@ function App() {
           )}
 
           <div
-            className={`${hideSidebar ? 'col-12' : 'col-md-9'
-              } main-content h-100 d-flex flex-column`}
+            className={`${
+              hideSidebar ? 'col-12' : 'col-md-9'
+            } main-content h-100 d-flex flex-column`}
             style={{ minHeight: 0 }}
           >
             <Switch>

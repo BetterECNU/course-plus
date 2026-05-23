@@ -4,6 +4,7 @@
 
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
+import uniqBy from 'lodash/uniqBy'
 import React, { useEffect, useMemo } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
@@ -58,7 +59,7 @@ export default function CoursePage() {
       }
     }
 
-    return allLessons.filter((l) => codes.has(l.kch))
+    return uniqBy(allLessons.filter((l) => codes.has(l.kch)), 'jxbmc')
   }, [allLessons, courseId, lessonConversion])
 
   const groupedByYear = useMemo(() => {
@@ -145,7 +146,7 @@ export default function CoursePage() {
               <div className='course-lessons'>
                 {sortBy(lessons, ['_term', 'jxbmc']).map((lesson, idx) => (
                   <div
-                    key={lesson._source + '-' + lesson._semester + '-' + (lesson.jxbmc || idx)}
+                    key={lesson._source + '-' + lesson._semester + '-' + (lesson.jxbmc || '') + '-' + idx}
                     className='mb-2 card course-lesson-card'
                   >
                     <div className='px-3 py-2 card-body'>
