@@ -5,11 +5,9 @@
 import groupBy from 'lodash/groupBy'
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Badge from 'react-bootstrap/Badge'
-import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
 import Spinner from 'react-bootstrap/Spinner'
 import { useHistory } from 'react-router-dom'
 
@@ -46,14 +44,28 @@ export default function SearchPage() {
   const { data: allLessons, loading, error, fetchAll } = useAllLessons()
   const { data: lessonConversion } = useLessonConversion()
   const history = useHistory()
+  const debounceRef = useRef(null)
 
-  const handleSearch = (e) => {
-    e.preventDefault()
-    if (!keyword.trim()) return
-    setSearchedKeyword(keyword)
-    setSearched(true)
-    fetchAll()
-  }
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current)
+    }
+    if (!keyword.trim()) {
+      setSearched(false)
+      setSearchedKeyword('')
+      return
+    }
+    debounceRef.current = setTimeout(() => {
+      setSearchedKeyword(keyword)
+      setSearched(true)
+      fetchAll()
+    }, 300)
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current)
+      }
+    }
+  }, [keyword, fetchAll])
 
   const filteredLessons = (() => {
     if (!allLessons || !searchedKeyword.trim()) return null
@@ -113,44 +125,14 @@ export default function SearchPage() {
           搜索所有学期数据，查找课程的开课记录
         </p>
 
-        <Form onSubmit={handleSearch}>
-          <Form.Row>
-            <Form.Group className='mb-3'>
-              <InputGroup>
-                <Form.Control
-                  placeholder='输入课程名称或课程代码……'
-                  name='keyword'
-                  value={keyword}
-                  onChange={handleKeywordChange}
-                  size=''
-                />
-                <InputGroup.Append>
-                  <Button
-                    type='submit'
-                    variant='primary'
-                    size='sm'
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <Spinner
-                          as='span'
-                          animation='border'
-                          size='sm'
-                          role='status'
-                          className='mr-1'
-                        />
-                        加载中……
-                      </>
-                    ) : (
-                      '搜索'
-                    )}
-                  </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </Form.Group>
-          </Form.Row>
-        </Form>
+        <Form.Group className='mb-3'>
+          <Form.Control
+            placeholder='输入课程名称或课程代码……'
+            name='keyword'
+            value={keyword}
+            onChange={handleKeywordChange}
+          />
+        </Form.Group>
 
         {error && (
           <div className='alert alert-danger small'>
