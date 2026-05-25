@@ -21,6 +21,7 @@
   ul {
     li {
       margin-left: 0.25rem;
+
       a {
         color: #0080ff !important;
         font-weight: bold;
@@ -30,6 +31,7 @@
         text-align: center;
       }
     }
+
     li.active {
       a {
         font-weight: bold;
@@ -55,8 +57,10 @@
 .main-content {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
+  min-width: 0;
+  width: 0;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -166,6 +170,7 @@
 
 .classtable-table {
   table-layout: fixed;
+
   @include media-breakpoint-between(xs, sm) {
     min-height: 90vh;
   }
@@ -237,20 +242,68 @@
 
 // Global search page
 .search-page {
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex: 1 1 0;
+  min-width: 0;
+  align-self: stretch;
+}
+
+.search-page-header {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+}
+
+.search-page-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+  min-width: 0;
 }
 
 .search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+
   .search-result-item {
     border-left: 3px solid transparent;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    width: 100%;
+    min-width: 0;
 
     &:hover {
       border-left-color: #0080ff;
       box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
   }
+}
+
+.search-result-row {
+  width: 100%;
+  min-width: 0;
+}
+
+.search-result-main {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.search-result-name {
+  overflow-wrap: anywhere;
+}
+
+.search-result-code {
+  white-space: nowrap;
 }
 
 .semester-badge {
