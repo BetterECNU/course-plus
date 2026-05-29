@@ -7,11 +7,15 @@
  * Changes:
  * - feat: browse and star
  *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - feat: 新增 useAllLessons 钩子，支持跨所有学期的课程数据获取，兼容 under/post 拆分格式并回退旧格式
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */
 
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import useSWR from 'swr'
 
 import fetcher, { conversionFetcher, lessonFetcher } from './SWRFetcher'
@@ -256,4 +260,66 @@ export function filterDataForm(dataRaw, filterForm, lessonConversion) {
     )
   }
   return filteringData
+}
+
+export function useAllLessons() {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const fetchAll = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const index = await fetcher('/course-plus-data/lessonData_index.json')
+      const results = await Promise.all(
+        index.map(async (item) => {
+          const sem = `${item.year}_${item.semester}`
+          const [underData, postData] = await Promise.all([
+            lessonFetcher(
+              `/course-plus-data/LessonData/Parsed_${sem}_under.json`
+            ).catch(() => null),
+            lessonFetcher(
+              `/course-plus-data/LessonData/Parsed_${sem}_post.json`
+            ).catch(() => null),
+          ])
+
+          if (underData === null && postData === null) {
+            const oldData = await lessonFetcher(
+              `/course-plus-data/LessonData/Parsed_${sem}.json`
+            ).catch(() => null)
+            return (oldData || []).map((l) => ({
+              ...l,
+              _semester: sem,
+              _year: item.year,
+              _term: item.semester,
+            }))
+          }
+
+          return [
+            ...(underData || []).map((l) => ({
+              ...l,
+              _semester: sem,
+              _year: item.year,
+              _term: item.semester,
+              _source: 'under',
+            })),
+            ...(postData || []).map((l) => ({
+              ...l,
+              _semester: sem,
+              _year: item.year,
+              _term: item.semester,
+              _source: 'post',
+            })),
+          ]
+        })
+      )
+      setData(results.flat())
+    } catch (e) {
+      setError(e)
+    }
+    setLoading(false)
+  }, [])
+
+  return { data, loading, error, fetchAll }
 }

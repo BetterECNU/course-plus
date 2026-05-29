@@ -7,6 +7,10 @@
  * Changes:
  * - fix: semester name's localization
  *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - fix: 导航路径校验，限制 path 仅允许 'browse'、'plan'、'classtable'，防止无效路由
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */
@@ -41,7 +45,10 @@ export default withRouter(({ history }) => {
   }, [history, currentSemester])
 
   const onPathChange = (event) => {
-    const nextPath = location.pathname.split('/')[2] || 'browse'
+    let nextPath = location.pathname.split('/')[2] || 'browse'
+    if (nextPath !== 'browse' && nextPath !== 'plan' && nextPath !== 'classtable') {
+      nextPath = 'browse'
+    }
     history.push(`/${event.target.value}/${nextPath}`)
   }
 

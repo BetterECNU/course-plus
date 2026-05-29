@@ -34,3 +34,5 @@ college_id.json
 lessonData_index.json
 lesson_conversion.json
 /LessonData
+.claude/
+pnpm-lock.yaml

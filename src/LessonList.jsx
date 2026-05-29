@@ -7,13 +7,18 @@
  * Changes:
  * - fix: hide unusable filters
  *
+ *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - fix: 异步定时器安全优化
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */
 
 import sortBy from 'lodash/sortBy'
 import uniqBy from 'lodash/uniqBy'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { InView } from 'react-intersection-observer'
 import { useParams } from 'react-router-dom'
 
@@ -55,6 +60,15 @@ export default ({ filterData, state, setState }) => {
   const { semester } = useParams()
   const { data: lessonsRaw } = useLessonData(semester)
   const [entries, setEntries] = useState(20)
+  const timerRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
+  }, [])
 
   const handleStateChange = ({ name, value }) => {
     const set = new Set(state)
@@ -77,9 +91,14 @@ export default ({ filterData, state, setState }) => {
     const truncatedLessons = sortBy(lessons, 'kch').slice(0, entries)
 
     const moreEntries = () => {
-      setTimeout(
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+      timerRef.current = setTimeout(
         () =>
-          setEntries(Math.max(Math.min(entries + 100, lessons.length), 100)),
+          setEntries((prev) =>
+            Math.max(Math.min(prev + 100, lessons.length), 100)
+          ),
         300
       )
     }
