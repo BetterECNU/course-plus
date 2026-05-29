@@ -7,6 +7,11 @@
  * Changes:
  * - fix: hide unusable filters
  *
+ *
+ * Modified by 霧雨バニラ from BetterECNU on 2026-05-23
+ * Changes:
+ * - fix: 异步定时器安全优化
+ *
  * Copyright 2025 ECNU-minus
  * ----------------------------------------------------------------
  */
