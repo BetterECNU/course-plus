@@ -46,7 +46,13 @@ function CoursePlusSvg() {
   )
 }
 
-export default ({ onToggleClick, hideToggle }: { onToggleClick: () => void; hideToggle: boolean }) => {
+export default ({
+  onToggleClick,
+  hideToggle,
+}: {
+  onToggleClick: () => void
+  hideToggle: boolean
+}) => {
   const { pathname } = useLocation()
   const params = useParams<{ semester?: string }>()
   const isStandalone = pathname === '/search' || pathname === '/course'
@@ -58,7 +64,9 @@ export default ({ onToggleClick, hideToggle }: { onToggleClick: () => void; hide
   )
   const defaultSemester =
     indexData && indexData.length > 0
-      ? `${indexData[indexData.length - 1].year}_${indexData[indexData.length - 1].semester}`
+      ? `${indexData[indexData.length - 1].year}_${
+          indexData[indexData.length - 1].semester
+        }`
       : null
 
   const semester = isStandalone
@@ -85,10 +93,14 @@ export default ({ onToggleClick, hideToggle }: { onToggleClick: () => void; hide
   ))
 
   // Global search link - independent of semester
-  const globalSearchMatch = matchPath(pathname, { path: '/search' }) ||
+  const globalSearchMatch =
+    matchPath(pathname, { path: '/search' }) ||
     matchPath(pathname, { path: '/course' })
   const globalSearchLink = (
-    <li key='/search' className={`nav-item${globalSearchMatch ? ' active' : ''}`}>
+    <li
+      key='/search'
+      className={`nav-item${globalSearchMatch ? ' active' : ''}`}
+    >
       <Link to='/search' className='nav-link'>
         全局搜索
       </Link>

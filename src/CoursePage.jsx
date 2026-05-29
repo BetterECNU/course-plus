@@ -10,11 +10,7 @@ import Badge from 'react-bootstrap/Badge'
 import Spinner from 'react-bootstrap/Spinner'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import {
-  parseTimeLocation,
-  useAllLessons,
-  useLessonConversion,
-} from './Utils'
+import { parseTimeLocation, useAllLessons, useLessonConversion } from './Utils'
 
 function semesterLabel(year, term) {
   let season = term
@@ -59,7 +55,10 @@ export default function CoursePage() {
       }
     }
 
-    return uniqBy(allLessons.filter((l) => codes.has(l.kch)), 'jxbmc')
+    return uniqBy(
+      allLessons.filter((l) => codes.has(l.kch)),
+      'jxbmc'
+    )
   }, [allLessons, courseId, lessonConversion])
 
   const groupedByYear = useMemo(() => {
@@ -84,9 +83,7 @@ export default function CoursePage() {
   }
 
   const courseName =
-    courseLessons && courseLessons.length > 0
-      ? courseLessons[0].kcmc
-      : courseId
+    courseLessons && courseLessons.length > 0 ? courseLessons[0].kcmc : courseId
 
   return (
     <div className='p-3 course-page'>
@@ -129,8 +126,8 @@ export default function CoursePage() {
               <span className='ml-2'>{courseName}</span>
             </h4>
             <p className='mb-0 text-muted small'>
-              共 {courseLessons.length} 条开课记录，覆盖{' '}
-              {groupedByYear.length} 个学年
+              共 {courseLessons.length} 条开课记录，覆盖 {groupedByYear.length}{' '}
+              个学年
             </p>
           </div>
 
@@ -146,7 +143,15 @@ export default function CoursePage() {
               <div className='course-lessons'>
                 {sortBy(lessons, ['_term', 'jxbmc']).map((lesson, idx) => (
                   <div
-                    key={lesson._source + '-' + lesson._semester + '-' + (lesson.jxbmc || '') + '-' + idx}
+                    key={
+                      lesson._source +
+                      '-' +
+                      lesson._semester +
+                      '-' +
+                      (lesson.jxbmc || '') +
+                      '-' +
+                      idx
+                    }
                     className='mb-2 card course-lesson-card'
                   >
                     <div className='px-3 py-2 card-body'>
@@ -156,7 +161,7 @@ export default function CoursePage() {
                           <Badge
                             variant={
                               lesson._term === 'Spring' ||
-                                lesson._term === 'Summer'
+                              lesson._term === 'Summer'
                                 ? 'success'
                                 : 'warning'
                             }
@@ -243,17 +248,14 @@ export default function CoursePage() {
         </>
       )}
 
-      {!loading &&
-        !error &&
-        courseLessons &&
-        courseLessons.length === 0 && (
-          <div className='my-5 text-muted text-center'>
-            <p>未找到课程 {courseId} 的开课记录</p>
-            <p className='small'>
-              该课程代码可能不存在或已更新，请尝试使用新课程代码搜索
-            </p>
-          </div>
-        )}
+      {!loading && !error && courseLessons && courseLessons.length === 0 && (
+        <div className='my-5 text-muted text-center'>
+          <p>未找到课程 {courseId} 的开课记录</p>
+          <p className='small'>
+            该课程代码可能不存在或已更新，请尝试使用新课程代码搜索
+          </p>
+        </div>
+      )}
     </div>
   )
 }

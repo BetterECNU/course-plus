@@ -46,7 +46,11 @@ export default withRouter(({ history }) => {
 
   const onPathChange = (event) => {
     let nextPath = location.pathname.split('/')[2] || 'browse'
-    if (nextPath !== 'browse' && nextPath !== 'plan' && nextPath !== 'classtable') {
+    if (
+      nextPath !== 'browse' &&
+      nextPath !== 'plan' &&
+      nextPath !== 'classtable'
+    ) {
       nextPath = 'browse'
     }
     history.push(`/${event.target.value}/${nextPath}`)
