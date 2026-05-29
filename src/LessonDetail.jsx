@@ -1,3 +1,16 @@
+/*
+ * Copyright 2025 SJTU-Geek
+ * Copyright 2020-2025 SJTU-Plus
+ *
+ * ----------------------------------------------------------------
+ * Modified by ChiyoYuki from ECNU-minus on 2025-05-29
+ * Changes:
+ * - feat: 不显示“上课老师”标注
+ *
+ * Copyright 2026 ECNU-minus
+ * ----------------------------------------------------------------
+ */
+
 import React from 'react'
 
 import {
