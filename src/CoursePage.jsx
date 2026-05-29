@@ -182,11 +182,11 @@ export default function CoursePage() {
                       <div className='mb-2'>
                         <span className='mr-1 text-muted small'>教师：</span>
                         <span className='small'>{lesson.jszc}</span>
-                        {lesson.zjs && lesson.zjs !== lesson.jszc && (
+                        {/* {lesson.zjs && lesson.zjs !== lesson.jszc && (
                           <span className='ml-1 text-muted small'>
                             (上课：{lesson.zjs})
                           </span>
-                        )}
+                        )} */}
                       </div>
 
                       {/* Time & Location */}

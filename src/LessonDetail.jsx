@@ -96,11 +96,11 @@ export default function LessonDetail({ lesson, color }) {
               lessonConversion={lessonConversion}
             ></ConversionInfo>
             <span>{lesson.jszc}</span>
-            {lesson.jszc !== lesson.zjs ? (
+            {/* {lesson.jszc !== lesson.zjs ? (
               <span>(上课教师: {lesson.zjs})</span>
             ) : (
               <></>
-            )}
+            )} */}
           </h6>
 
           <p className='card-text'>
